@@ -18,6 +18,8 @@ class Artist(models.Model):
 class Song(models.Model):
     name = models.CharField(max_length=500)
     duration = models.FloatField()
+    album = models.ForeignKey('Album', on_delete=models.CASCADE, null=True)
+    artist = models.ManyToManyField(Artist, help_text='Select an artist for this song')
 
 class Album(models.Model):
     name = models.CharField(max_length=500)
