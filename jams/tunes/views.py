@@ -4,7 +4,7 @@ from .models import *
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer, GenreSerializer, PlaylistSerializer
+from .serializers import *
 
 # Create your views here.
 
@@ -36,3 +36,15 @@ class GenreViewSet(viewsets.ModelViewSet):
 class PlaylistViewSet(viewsets.ModelViewSet):
     queryset = Playlist.objects.all()
     serializer_class = PlaylistSerializer
+
+class ArtistViewSet(viewsets.ModelViewSet):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+class SongViewSet(viewsets.ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
+
+class AlbumViewSet(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer

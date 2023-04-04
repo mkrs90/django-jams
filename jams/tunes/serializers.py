@@ -23,3 +23,19 @@ class PlaylistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Playlist
         fields = ['id', 'name']
+
+class ArtistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Artist
+        fields = ['id', 'name', 'bio', 'image']
+
+class SongSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Song
+        fields = ['id', 'name', 'duration']
+
+class AlbumSerializer(serializers.ModelSerializer):
+    # genre = GenreSerializer(many=True)
+    class Meta:
+        model = Album
+        fields = ['id', 'name', 'published_date', 'cover_art', 'genre']
