@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Genre
+from .models import *
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -17,4 +17,9 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
+        fields = ['id', 'name']
+
+class PlaylistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
         fields = ['id', 'name']
