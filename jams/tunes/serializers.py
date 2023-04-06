@@ -19,24 +19,48 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
         fields = ['id', 'name']
 
-class PlaylistSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Playlist
-        fields = ['id', 'name']
-
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ['id', 'name', 'bio', 'image']
 
-class SongSerializer(serializers.ModelSerializer):
-    # artist = ArtistSerializer(many=True)
+class AlbumWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Album
+        fields = ['id', 'name', 'published_date', 'cover_art', 'genre']
+
+class AlbumReadSerializer(serializers.ModelSerializer):
+    genre = GenreSerializer(many=True, read_only=True)
+    class Meta:
+        model = Album
+        fields = ['id', 'name', 'published_date', 'cover_art', 'genre']        
+
+class SongWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
         fields = ['id', 'name', 'duration', 'album', 'artist']
 
-class AlbumSerializer(serializers.ModelSerializer):
-    # genre = GenreSerializer(many=True)
+class SongReadSerializer(serializers.ModelSerializer):
+    artist = ArtistSerializer(many=True, read_only=True)
+    album = AlbumReadSerializer()
     class Meta:
-        model = Album
-        fields = ['id', 'name', 'published_date', 'cover_art', 'genre']
+        model = Song
+        fields = ['id', 'name', 'duration', 'album', 'artist']        
+
+
+class PlaylistWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = ['id', 'name', 'song']
+
+class PlaylistReadSerializer(serializers.ModelSerializer):
+    songs = serializers.SerializerMethodField()
+    class Meta:
+        model = Playlist
+        fields = ['id', 'name', 'songs']
+
+    def get_songs(self, obj):
+        song = Song.objects.all()
+        return [{"id": song.id, "name": song.name} for song in song]
+
+

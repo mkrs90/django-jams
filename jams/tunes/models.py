@@ -7,9 +7,6 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
-class Playlist(models.Model):
-    name = models.CharField(max_length=500)
-
 class Artist(models.Model):
     name = models.CharField(max_length=500)
     bio = models.TextField()
@@ -18,8 +15,15 @@ class Artist(models.Model):
 class Song(models.Model):
     name = models.CharField(max_length=500)
     duration = models.FloatField()
-    album = models.ForeignKey('Album', on_delete=models.CASCADE, null=True)
+    album = models.ForeignKey('Album', on_delete=models.PROTECT, null=True)
     artist = models.ManyToManyField(Artist, help_text='Select an artist for this song')
+
+    def __str__(self):
+        return self.name
+
+class Playlist(models.Model):
+    name = models.CharField(max_length=500)
+    song = models.ManyToManyField(Song, help_text='Select an song for this playlist')
 
 class Album(models.Model):
     name = models.CharField(max_length=500)

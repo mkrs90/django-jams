@@ -35,16 +35,34 @@ class GenreViewSet(viewsets.ModelViewSet):
 
 class PlaylistViewSet(viewsets.ModelViewSet):
     queryset = Playlist.objects.all()
-    serializer_class = PlaylistSerializer
+    
+    def get_serializer_class(self):
+        if self.action in ("create", "update", "partial_update", "destroy"):
+            print("you did either a PUT, PATCH, POST, or DESTROY")
+            return PlaylistWriteSerializer
+        print("You did a GET")
+        return PlaylistReadSerializer
 
 class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
-class SongViewSet(viewsets.ModelViewSet):
-    queryset = Song.objects.all()
-    serializer_class = SongSerializer
-
 class AlbumViewSet(viewsets.ModelViewSet):
     queryset = Album.objects.all()
-    serializer_class = AlbumSerializer
+
+    def get_serializer_class(self):
+        if self.action in ("create", "update", "partial_update", "destroy"):
+            print("you did either a PUT, PATCH, POST, or DESTROY")
+            return AlbumWriteSerializer
+        print("You did a GET")
+        return AlbumReadSerializer
+
+class SongViewSet(viewsets.ModelViewSet):
+    queryset = Song.objects.all()
+    
+    def get_serializer_class(self):
+        if self.action in ("create", "update", "partial_update", "destroy"):
+            print("you did either a PUT, PATCH, POST, or DESTROY")
+            return SongWriteSerializer
+        print("You did a GET")
+        return SongReadSerializer
